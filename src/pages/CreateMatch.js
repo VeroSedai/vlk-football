@@ -1,14 +1,16 @@
 import { NavLink } from "react-router-dom";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import PlayerItem from "../components/Players/PlayersItem";
-import { firstTeamState, secondTeamState, selectedPlayerState } from "../store/globalState";
+import { firstTeamState, matchDateAndPlace, secondTeamState, selectedPlayerState } from "../store/globalState";
 import classes from "../components/UI/DragNDrop.module.css";
 import GameDetailsForm from "../components/UI/GameDetailsFrom";
+import { useEffect, useState } from "react";
 
 const CreateMatch = () => {
-  const selectedPlayers = useRecoilValue(selectedPlayerState);
-  const [firstTeam, setFirstTeam] = useRecoilState(firstTeamState);
-  const [secondTeam, setSecondTeam] = useRecoilState(secondTeamState);
+    const selectedPlayers = useRecoilValue(selectedPlayerState);
+    const setEnteredDatePlace = useSetRecoilState(matchDateAndPlace);
+    const setFirstTeam = useSetRecoilState(firstTeamState);
+  const setSecondTeam = useSetRecoilState(secondTeamState);
 
 
   const playersFiltered = selectedPlayers.filter((x) => x.isGoalkeeper === false);
@@ -27,19 +29,22 @@ const CreateMatch = () => {
   if(sumFirstTeamStrength >= sumSecondTeamStrength){
       if(goalkeepersFiltered.reduce((n,m) => n.strength >= m.strength ))
       {
-        firstTeamFiltered = [...firstTeamFiltered.concat(goalkeepersFiltered[0])];
-        secondTeamFiltered =[...secondTeamFiltered.concat(goalkeepersFiltered[1])];
+        firstTeamFiltered = firstTeamFiltered.concat(goalkeepersFiltered[0]);
+        secondTeamFiltered =secondTeamFiltered.concat(goalkeepersFiltered[1]);
       }else{
-        firstTeamFiltered = [...firstTeamFiltered.concat(goalkeepersFiltered[1])];
-        secondTeamFiltered =[ ...secondTeamFiltered.concat(goalkeepersFiltered[0])];
+        firstTeamFiltered = firstTeamFiltered.concat(goalkeepersFiltered[1]);
+        secondTeamFiltered =secondTeamFiltered.concat(goalkeepersFiltered[0]);
       }
-      setFirstTeam(firstTeamFiltered);
-      setSecondTeam(secondTeamFiltered);
-  }
+    }
 
-  const submitGameDetailsHandler = (gameData) => {
-      console.log(gameData);
-  };
+    useEffect(() => {
+        setFirstTeam(firstTeamFiltered);
+        setSecondTeam(secondTeamFiltered);
+    }, [])
+    
+    const submitGameDetailsHandler = (enteredDetails) => {
+        setEnteredDatePlace(enteredDetails);
+    };
 
 
   return (

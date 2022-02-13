@@ -19,3 +19,8 @@ export const secondTeamState = atom({
     key: "secondTeamState",
     default: []
 });
+
+export const matchDateAndPlace = atom({
+    key: "matchDateAndPlace",
+    default: []
+});

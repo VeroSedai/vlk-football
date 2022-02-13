@@ -1,21 +1,31 @@
 import { useRecoilState, useRecoilValue } from "recoil";
 import PlayerItem from "../components/Players/PlayersItem";
-import { firstTeamState, secondTeamState } from "../store/globalState";
+import {
+  firstTeamState,
+  matchDateAndPlace,
+  secondTeamState,
+} from "../store/globalState";
 import classes from "../components/UI/DragNDrop.module.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { Card } from "reactstrap";
 
 const MatchDetails = () => {
-  const FirstTeamFromState = useRecoilState(firstTeamState);
-  const setSecondTeamFromState = useRecoilState(secondTeamState);
-  const [firstTeam, setFirstTeam] = useState(FirstTeamFromState);
-  const [secondTeam, setSecondTeam] = useState(setSecondTeamFromState);
+  const firstTeamFromState = useRecoilState(firstTeamState);
+  const secondTeamFromState = useRecoilState(secondTeamState);
+  const matchDateAndPlaceFromState = useRecoilState(matchDateAndPlace);
+  const { gamePlace: gamePlace, gameDate: gameDate } =
+    matchDateAndPlaceFromState[0];
 
   return (
     <div>
+      <Card className="text-center">
+        <p>{gameDate}</p>
+        <p>{gamePlace}</p>
+      </Card>
       <div style={{ display: "flex" }}>
         <div>
           <p className={classes.players}>VLK TEAM</p>
-          {firstTeam.map((item, i) => {
+          {firstTeamFromState[0].map((item, i) => {
             return (
               <div>
                 <ul className={classes.players}>
@@ -29,7 +39,7 @@ const MatchDetails = () => {
         </div>
         <div>
           <p>KVL TEAM</p>
-          {secondTeam.map((item, i) => {
+          {secondTeamFromState[0].map((item, i) => {
             return (
               <div>
                 <ul className={classes.players}>
