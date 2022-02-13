@@ -12,7 +12,7 @@ const MainPage = () => {
       style={{ minHeight: "100vh" }}
     >
       <Grid item xs={3}>
-        <NavLink to="/selectplayers">Crea Partita</NavLink>
+        <NavLink className="btn btn-primary" to="/selectplayers">Crea Partita</NavLink>
       </Grid>
     </Grid>
   );

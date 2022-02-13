@@ -1,0 +1,76 @@
+{
+  "players": [
+    {
+      "id": "gary",
+      "name": "Gary",
+      "strength": 4,
+      "isGoalkeeper": true
+    },
+    {
+      "id": "cato",
+      "name": "Little Cato",
+      "strength": 4,
+      "isGoalkeeper": true
+    },
+    {
+      "id": "kvn",
+      "name": "KVN",
+      "strength": 4,
+      "isGoalkeeper": false
+    },
+    {
+      "id": "mooncake",
+      "name": "Mooncake",
+      "strength": 4,
+      "isGoalkeeper": false
+    },
+    {
+      "id": "quinn",
+      "name": "Quinn Ergon",
+      "strength": 4,
+      "isGoalkeeper": false
+    },
+    {
+      "id": "pepe",
+      "name": "Pepe",
+      "strength": 4,
+      "isGoalkeeper": false
+    },
+    {
+      "id": "kermit",
+      "name": "Kermit",
+      "strength": 4,
+      "isGoalkeeper": false
+    },
+    {
+      "id": "paperino",
+      "name": "Paperino",
+      "strength": 4,
+      "isGoalkeeper": false
+    },
+    {
+      "id": "topolino",
+      "name": "Topolino",
+      "strength": 4,
+      "isGoalkeeper": false
+    },
+    {
+      "id": "pippo",
+      "name": "Pippo",
+      "strength": 4,
+      "isGoalkeeper": false
+    },
+    {
+      "id": "8be4f48ad477b",
+      "name": "Aki",
+      "strength": 12,
+      "isGoalkeeper": false
+    },
+    {
+      "id": "1d5c91acd1e74",
+      "name": "suti",
+      "strength": 4,
+      "isGoalkeeper": false
+    }
+  ]
+}

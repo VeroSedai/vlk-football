@@ -1,56 +1,89 @@
-import React, { useCallback, useReducer } from "react";
+import React, { useCallback, useEffect, useReducer, useState } from "react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
-import produce from "immer";
 import classes from "./DragNDrop.module.css";
+import PlayersItem from "../Players/PlayersItem";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { allPlayerState, selectedPlayerState } from "../../store/globalState";
 
-const dragReducer = produce((draft, action) => {
-  switch (action.type) {
-    case "MOVE": {
-      draft[action.from] = draft[action.from] || [];
-      draft[action.to] = draft[action.to] || [];
-      const [removed] = draft[action.from].splice(action.fromIndex, 1);
-      draft[action.to].splice(action.toIndex, 0, removed);
-    }
-  }
-});
+const move = (source, destination, droppableSource, droppableDestination) => {
+  const sourceClone = Array.from(source);
+  const destClone = Array.from(destination);
+  const [removed] = sourceClone.splice(droppableSource.index, 1);
 
-const DragNDrop = (props) => {
-  const [state, dispatch] = useReducer(dragReducer, {
-    items: props.finalSpaceCharacters,
-  });
+  destClone.splice(droppableDestination.index, 0, removed);
 
-  const onDragEnd = useCallback((result) => {
-    if (result.reason === "DROP") {
-      if (!result.destination) {
-        return;
+  const result = {};
+  result[droppableSource.droppableId] = sourceClone;
+  result[droppableDestination.droppableId] = destClone;
+
+  return result;
+};
+
+const DragNDrop = () => {
+  const allPlayers = useRecoilValue(allPlayerState);
+  const [players, setUpdatePlayers] = useState(allPlayers);
+  const [selectedPlayers, setUpdateSelectedPlayers] = useRecoilState(selectedPlayerState);
+
+  const reorder = (list, startIndex, endIndex) => {
+    const result = Array.from(list);
+    const [removed] = result.splice(startIndex, 1);
+    result.splice(endIndex, 0, removed);
+    return result;
+  };
+
+  const handleOnDragEnd = (result) => {
+    if (!result.destination) return;
+    if (result.source.droppableId === result.destination.droppableId) {
+      if (result.source.droppableId === "items") {
+        const list = reorder(
+          players,
+          result.source.index,
+          result.destination.index
+        );
+        setUpdatePlayers(list);
+      } else {
+        const list = reorder(
+          selectedPlayers,
+          result.source.index,
+          result.destination.index
+        );
+        setUpdateSelectedPlayers(list);
       }
-      dispatch({
-        type: "MOVE",
-        from: result.source.droppableId,
-        to: result.destination.droppableId,
-        fromIndex: result.source.index,
-        toIndex: result.destination.index,
-      });
+    } else {
+      const r = move(
+        result.source.droppableId === "players" ? players : selectedPlayers,
+        result.destination.droppableId === "players" ? players : selectedPlayers,
+        result.source,
+        result.destination
+      );
+      setUpdatePlayers(r.players);
+      setUpdateSelectedPlayers(r.selectedPlayers);
     }
-  }, []);
+  };
 
   return (
     <div style={{ display: "flex" }}>
-      <DragDropContext onDragEnd={onDragEnd}>
-        <Droppable droppableId="items">
+      <DragDropContext onDragEnd={handleOnDragEnd}>
+        <Droppable droppableId="players">
           {(provided, snapshot) => {
             return (
               <ul
-                className={classes.characters}
+                className={classes.players}
                 {...provided.droppableProps}
                 ref={provided.innerRef}
               >
-                {state.items?.map((item, index) => {
+                {players?.map((item, index) => {
                   return (
                     <Draggable
-                      key={item.id}
-                      draggableId={item.id}
+                      key={item?.id}
+                      draggableId={item?.id}
                       index={index}
+                      isDragDisabled={
+                        item?.isGoalkeeper &&
+                        selectedPlayers?.filter((x) => {
+                          return x?.isGoalkeeper;
+                        }).length >= 2
+                      }
                     >
                       {(provided, snapshot) => {
                         return (
@@ -59,13 +92,7 @@ const DragNDrop = (props) => {
                             {...provided.draggableProps}
                             {...provided.dragHandleProps}
                           >
-                            <div className={classes.charactersthumb}>
-                              <img
-                                src={item.thumb}
-                                alt={`${item.name} Thumb`}
-                              />
-                            </div>
-                            <p>{item.name}</p>
+                            <PlayersItem player={item} />
                           </li>
                         );
                       }}
@@ -77,15 +104,19 @@ const DragNDrop = (props) => {
             );
           }}
         </Droppable>
-        <Droppable droppableId="items2">
+        <Droppable droppableId="selectedPlayers">
           {(provided, snapshot) => {
             return (
-              <ul  className={classes.characters} ref={provided.innerRef} {...provided.droppableProps}>
-                {state.items2?.map((items, index) => {
+              <ul
+                className={classes.players}
+                ref={provided.innerRef}
+                {...provided.droppableProps}
+              >
+                {selectedPlayers?.map((items, index) => {
                   return (
                     <Draggable
-                      key={items.id}
-                      draggableId={items.id}
+                      key={items?.id}
+                      draggableId={items?.id}
                       index={index}
                     >
                       {(provided, snapshot) => {
@@ -95,13 +126,7 @@ const DragNDrop = (props) => {
                             {...provided.draggableProps}
                             {...provided.dragHandleProps}
                           >
-                           <div className={classes.charactersthumb}>
-                              <img
-                                src={items.thumb}
-                                alt={`${items.name} Thumb`}
-                              />
-                            </div>
-                            <p>{items.name}</p>
+                            <PlayersItem player={items} />
                           </li>
                         );
                       }}

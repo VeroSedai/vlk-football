@@ -1,35 +1,41 @@
-.characters {
-    list-style: none;
-    padding-left: 0;
-  }
-  
-  .characters li {
-    display: flex;
-    align-items: center;
-    border: solid 2px #d0d0d0;
-    border-radius: .2em;
-    padding: .5em .8em .5em .5em;
-    margin-bottom: 1em;
-  }
-  
-  .characters p {
-    max-width: none;
-    font-weight: bold;
-    margin: 0;
-  }
-  
-  .charactersthumb {
-    overflow: hidden;
-    flex-shrink: 0;
-    width: 2em;
-    height: 2em;
-    background-color: #e8e8e8;
-    padding: .5em;
-    margin-right: .5em;
-  }
-  
-  .characters-thumb img {
-    display: block;
-    width: 100%;
-    height: auto;
-  }
+.players {
+  list-style: none;
+  padding-left: 0;
+  background-color: lightgrey;
+  width: 300px;
+  margin: 1em;
+  border-radius: 14px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  /* we want the column to take up its full height */
+  display: flex;
+  flex-direction: column;
+}
+
+.players li {
+  display: flex;
+  align-items: center;
+  padding: 0.5em 0.8em 0.5em 0.5em;
+  margin-bottom: 1em;
+}
+
+.players p {
+  max-width: none;
+  font-weight: bold;
+  margin: 0;
+}
+
+.playersthumb {
+  overflow: hidden;
+  flex-shrink: 0;
+  width: 2em;
+  height: 2em;
+  background-color: #e8e8e8;
+  padding: 0.5em;
+  margin-right: 0.5em;
+}
+
+.players-thumb img {
+  display: block;
+  width: 100%;
+  height: auto;
+}

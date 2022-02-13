@@ -1,9 +1,11 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import Layout from "./components/Layout/Layout";
 import CreateMatch from "./pages/CreateMatch";
 import MainPage from "./pages/MainPage";
 import MatchDetails from "./pages/MatchDetails";
 import SelectPlayers from "./pages/SelectPlayers";
+import 'bootstrap/dist/css/bootstrap.min.css'; 
+import "font-awesome/css/font-awesome.css";
 
 function App() {
   return (
