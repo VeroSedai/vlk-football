@@ -12,7 +12,7 @@ const MainPage = () => {
             Clicca su Crea Partita per iniziare a configurare le tue squadre.
           </p>
           <p className="lead">
-            <NavLink className="btn btn-primary" to="/selectplayers">
+            <NavLink className="btn btn-lg btn-primary" to="/selectplayers">
               Crea Partita
             </NavLink>
           </p>

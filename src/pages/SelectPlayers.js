@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import AddPlayerButton from "../components/Players/AddPlayerButton";
@@ -8,7 +7,7 @@ import useHttp from "../hooks/use-http";
 import { getAllPlayers } from "../lib/api";
 import { useSetRecoilState } from "recoil";
 import { allPlayerState } from "../store/globalState";
-import { Container, Row, Spinner } from "reactstrap";
+import { Button, Container, Row, Spinner } from "reactstrap";
 
 const SelectPlayers = () => {
   const [addPlayerIsShown, setAddPlayerIsShown] = useState(false);
@@ -49,7 +48,6 @@ const SelectPlayers = () => {
       </div>
     );
   }
-
   const showAddPlayerHandler = () => {
     setAddPlayerIsShown(true);
   };
@@ -70,9 +68,15 @@ const SelectPlayers = () => {
         )}
       </Row>
       <div class="col-md-12 text-center">
-        {isSelectablePlayerLimitReached && <NavLink className="btn btn-primary" to="/creatematch">
-          Crea Squadre
-        </NavLink>}
+        {!isSelectablePlayerLimitReached ? (
+          <Button className="btn btn-secondary" disabled>
+            Crea Squadre
+          </Button>
+        ) : (
+          <NavLink className="btn btn-primary" to="/creatematch">
+            Crea Squadre
+          </NavLink>
+        )}
       </div>
     </Container>
   );

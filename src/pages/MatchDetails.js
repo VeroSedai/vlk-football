@@ -17,15 +17,15 @@ const MatchDetails = () => {
   return (
     <div>
       <Card className="text-center">
-        <p>{gameDate}</p>
-        <p>{gamePlace}</p>
+        <h4>{gameDate}</h4>
+        <h4>{gamePlace}</h4>
       </Card>
       <div className="pt-2" style={{ display: "flex" }}>
         <Card>
-          <CardHeader>VLK TEAM</CardHeader>
+          <CardHeader><h5>VLK TEAM</h5></CardHeader>
           {firstTeamFromState[0].map((item, i) => {
             return (
-              <ListGroup key={item.id}>
+              <ListGroup key={i}>
                 <ListGroupItem>
                   <PlayerItem player={item} />
                 </ListGroupItem>
@@ -34,10 +34,10 @@ const MatchDetails = () => {
           })}
         </Card>
         <Card>
-          <CardHeader>KVL TEAM</CardHeader>
+          <CardHeader><h5>KLV TEAM</h5></CardHeader>
           {secondTeamFromState[0].map((item, i) => {
             return (
-              <ListGroup key={item.id}>
+              <ListGroup key={i}>
                 <ListGroupItem>
                   <PlayerItem player={item} />
                 </ListGroupItem>
@@ -46,8 +46,8 @@ const MatchDetails = () => {
           })}
         </Card>
       </div>
-      <div class="col-md-12 text-center">
-        <NavLink className="btn btn-primary" to="/">
+      <div class="mt-2 col-md-12 text-center">
+        <NavLink className="btn btn-lg btn-primary" to="/">
           Home
         </NavLink>
       </div>

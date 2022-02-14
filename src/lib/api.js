@@ -28,10 +28,10 @@ export async function addPlayer(playerData) {
   return null;
 }
 
-export async function addMatch(requestData) {
-  const response = await fetch(`${JSONSERVER_DOMAIN}/comments/${requestData.quoteId}.json`, {
+export async function addMatch(matchData) {
+  const response = await fetch(`${JSONSERVER_DOMAIN}/match`, {
     method: 'POST',
-    body: JSON.stringify(requestData.commentData),
+    body: JSON.stringify(matchData),
     headers: {
       'Content-Type': 'application/json',
     },
@@ -42,7 +42,7 @@ export async function addMatch(requestData) {
     throw new Error(data.message || 'Could not add comment.');
   }
 
-  return { commentId: data.name };
+  return null;
 }
 
 export async function getAllMatch(quoteId) {
