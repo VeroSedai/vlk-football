@@ -26,10 +26,10 @@ json-server --watch data/db.json --port 8000
 ```
 Singular routes
 ```sh
-GET    /players
-POST   /players
-GET    /match
-POST   /match
+GET    http://localhost:8000/players
+POST   http://localhost:8000/players
+GET    http://localhost:8000/match
+POST   http://localhost:8000/match
 ```
 
 
