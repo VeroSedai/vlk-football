@@ -19,9 +19,17 @@ npm start
 Runs the app in the development mode.
 Open http://localhost:3000 to view it in your browser.
 
+Start JSON Server
+
 ```sh
 json-server --watch data/db.json --port 8000
 ```
+Singular routes
+GET    /players
+POST   /players
+GET    /match
+POST   /match
+
 
 ## Run tests
 
