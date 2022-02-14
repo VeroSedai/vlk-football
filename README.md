@@ -7,9 +7,11 @@
 
 ## Install
 
+Install with npm:
 ```sh
 npm install
 ```
+Run npm install to saves any specified packages into dependencies.
 
 ## Usage
 
@@ -21,6 +23,9 @@ Runs the app in the development mode.
 Open http://localhost:3000 to view it in your browser.
 
 Start JSON Server
+
+Start json server before using the application or there could be server error.
+
 ```sh
 json-server --watch data/db.json --port 8000
 ```
@@ -32,12 +37,6 @@ GET    http://localhost:8000/match
 POST   http://localhost:8000/match
 ```
 
-
-## Run tests
-
-```sh
-npm run test
-```
 
 ## Author
 
