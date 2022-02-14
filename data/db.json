@@ -71,6 +71,54 @@
       "name": "suti",
       "strength": 4,
       "isGoalkeeper": false
+    },
+    {
+      "id": "82a07bf4bb57a",
+      "name": "test2",
+      "strength": 4,
+      "isGoalkeeper": false
+    },
+    {
+      "id": "dba2ef9c4b753",
+      "name": "paolo",
+      "strength": 4,
+      "isGoalkeeper": true
+    },
+    {
+      "id": "1ec500d1090df",
+      "name": "provasaveload",
+      "strength": 4,
+      "isGoalkeeper": false
+    },
+    {
+      "id": "0ad95ef5c13de",
+      "name": "fgdsfsaffsd",
+      "strength": 4,
+      "isGoalkeeper": false
+    },
+    {
+      "id": "e3682deee8f38",
+      "name": "gbfdghfhhthreerhagrwgwa",
+      "strength": 12,
+      "isGoalkeeper": false
+    },
+    {
+      "id": "ab6940ed12d3",
+      "name": "test modifiche",
+      "strength": 4,
+      "isGoalkeeper": false
+    },
+    {
+      "id": "12db28b095855",
+      "name": "sasaSAsASA",
+      "strength": 4,
+      "isGoalkeeper": false
+    },
+    {
+      "id": "c25b3b3775494",
+      "name": "dsadasdasda",
+      "strength": 4,
+      "isGoalkeeper": false
     }
   ]
 }

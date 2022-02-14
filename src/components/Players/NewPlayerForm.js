@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import classes from "./NewPlayerForm.module.css";
+import { FormGroup, Input, Label } from "reactstrap";
 
 const isEmpty = (value) => value.trim() === "";
 
@@ -22,7 +22,7 @@ const NewPlayerForm = (props) => {
     const enteredNameIsValid = !isEmpty(enteredName);
 
     setFormInputsValidity({
-      name: enteredNameIsValid,
+      name: enteredNameIsValid, 
     });
 
     if (!enteredNameIsValid) {
@@ -37,35 +37,31 @@ const NewPlayerForm = (props) => {
     });
   };
 
-  const nameControlClasses = `${classes.control} ${
-    formInputsValidity.name ? "" : classes.invalid
-  }`;
-
   return (
-    <form className={classes.form} onSubmit={confirmHandler}>
-      <div className={nameControlClasses}>
-        <label htmlFor="name">Nome</label>
-        <input type="text" id="name" ref={nameInputRef} />
-        {!formInputsValidity.name && <p>Please enter a valid name!</p>}
-      </div>
-      <div>
-        <select ref={selectRef}>
+    <form onSubmit={confirmHandler}>
+      <FormGroup>
+        <Label for="name">Nome</Label>
+        <Input type="text" id="name" innerRef={nameInputRef} invalid={!formInputsValidity.name} />
+        {!formInputsValidity.name && <p className="text-danger">Il nome non può essere vuoto</p>}
+      </FormGroup>
+      <FormGroup>
+        <Input type="select" innerRef={selectRef}>
           <option value="4">DEBOLE</option>
           <option value="8">MEDIO</option>
           <option value="12">FORTE</option>
           <option value="16">PAUROSO</option>
-        </select>
-      </div>
+        </Input>
+      </FormGroup>
+      <FormGroup>
+        <Label check>
+          <Input type="checkbox" innerRef={checkboxRef} /> Portiere
+        </Label>
+      </FormGroup>
       <div>
-        <label>
-          <input type="checkbox" ref={checkboxRef} /> Portiere
-        </label>
-      </div>
-      <div className={classes.actions}>
-        <button type="button" onClick={props.onCancel}>
-          Cancel
+        <button className="btn btn-light pull-right" type="button" onClick={props.onCancel}>
+          Cancella
         </button>
-        <button className={classes.submit}>Confirm</button>
+        <button className="btn btn-primary pull-right">Conferma</button>
       </div>
     </form>
   );

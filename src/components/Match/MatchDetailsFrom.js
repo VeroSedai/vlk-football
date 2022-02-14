@@ -1,9 +1,9 @@
-import { Fragment, useRef, useState } from "react";
-import { Button, Form, Input, Label } from "reactstrap";
+import { useRef, useState } from "react";
+import { Button, Card, Input, Label } from "reactstrap";
 
 const isEmpty = (value) => value.trim() === "";
 
-const GameDetailsForm = (props) => {
+const MatchDetailsForm = (props) => {
   const [formInputsValidity, setFormInputsValidity] = useState({
     place: true,
   });
@@ -11,7 +11,7 @@ const GameDetailsForm = (props) => {
   const dateInputRef = useRef();
   const placeInputRef = useRef();
 
-  const confirmHandler = (event) => {
+  const confirmHandler = (event) => { 
     event.preventDefault();
 
     const enteredPlace = placeInputRef.current.value;
@@ -21,7 +21,7 @@ const GameDetailsForm = (props) => {
     const enteredPlaceIsValid = !isEmpty(enteredPlace);
 
     setFormInputsValidity({
-      name: enteredPlaceIsValid,
+      place: enteredPlaceIsValid,
     });
 
     if (!enteredPlaceIsValid) {
@@ -35,12 +35,8 @@ const GameDetailsForm = (props) => {
     });
   };
 
-  //   const nameControlClasses = `${classes.control} ${
-  //     formInputsValidity.name ? "" : classes.invalid
-  // }`;
-
   return (
-    <Fragment>
+    <Card className="m-2 p-2">
       <form onSubmit={confirmHandler}>
         <div className="form-group">
           <Label htmlFor="example2">Data</Label>
@@ -54,14 +50,17 @@ const GameDetailsForm = (props) => {
           <Label htmlFor="example2">Luogo</Label>
           <Input
             innerRef={placeInputRef}
+            invalid={!formInputsValidity.place} 
             type="text"
             className="form-control form-control-md"
           />
         </div>
-        <Button className="btn btn-primary">Confirm</Button>
+        <div className="p-3 pull-right">
+          <Button color="btn btn-outline-primary">Conferma</Button>
+        </div>
       </form>
-    </Fragment>
+    </Card>
   );
 };
 
-export default GameDetailsForm;
+export default MatchDetailsForm;

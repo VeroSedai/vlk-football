@@ -5,6 +5,16 @@ export const selectedPlayerState = atom({
     default: []
 });
 
+export const unSelectedPlayerState = atom({
+    key: "unSelectedPlayerState",
+    default: []
+});
+
+export const isSelectablePlayerLimitReached = atom({
+    key: "isSelectablePlayerLimitReached",
+    default: false
+});
+
 export const allPlayerState = atom({
     key: "allPlayerState",
     default: []

@@ -1,9 +1,9 @@
-import React, { useCallback, useEffect, useReducer, useState } from "react";
+import React, { useEffect,  useState } from "react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import classes from "./DragNDrop.module.css";
 import PlayersItem from "../Players/PlayersItem";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { allPlayerState, selectedPlayerState } from "../../store/globalState";
+import { allPlayerState, selectedPlayerState, unSelectedPlayerState } from "../../store/globalState";
 
 const move = (source, destination, droppableSource, droppableDestination) => {
   const sourceClone = Array.from(source);
@@ -19,17 +19,27 @@ const move = (source, destination, droppableSource, droppableDestination) => {
   return result;
 };
 
-const DragNDrop = () => {
+const reorder = (list, startIndex, endIndex) => {
+  const result = Array.from(list);
+  const [removed] = result.splice(startIndex, 1);
+  result.splice(endIndex, 0, removed);
+  return result;
+};
+
+const isDropLimit = (value) => value.length >= 10;
+
+const DragNDrop = (props) => {
   const allPlayers = useRecoilValue(allPlayerState);
   const [players, setUpdatePlayers] = useState(allPlayers);
   const [selectedPlayers, setUpdateSelectedPlayers] = useRecoilState(selectedPlayerState);
+  const [unSelectedPlayers, setUnselectedPlayers] = useRecoilState(unSelectedPlayerState);
 
-  const reorder = (list, startIndex, endIndex) => {
-    const result = Array.from(list);
-    const [removed] = result.splice(startIndex, 1);
-    result.splice(endIndex, 0, removed);
-    return result;
-  };
+
+  useEffect(() => {
+    if(unSelectedPlayers.length > 0){
+      setUpdatePlayers(unSelectedPlayers);
+    }
+  }, [unSelectedPlayers]);
 
   const handleOnDragEnd = (result) => {
     if (!result.destination) return;
@@ -58,6 +68,8 @@ const DragNDrop = () => {
       );
       setUpdatePlayers(r.players);
       setUpdateSelectedPlayers(r.selectedPlayers);
+      setUnselectedPlayers(r.players);
+      props.selectablePlayerLimitReached(isDropLimit(r.selectedPlayers));
     }
   };
 
@@ -79,10 +91,10 @@ const DragNDrop = () => {
                       draggableId={item?.id}
                       index={index}
                       isDragDisabled={
-                        item?.isGoalkeeper &&
+                        (item?.isGoalkeeper &&
                         selectedPlayers?.filter((x) => {
                           return x?.isGoalkeeper;
-                        }).length >= 2
+                        }).length >= 2)
                       }
                     >
                       {(provided, snapshot) => {
@@ -104,7 +116,7 @@ const DragNDrop = () => {
             );
           }}
         </Droppable>
-        <Droppable droppableId="selectedPlayers">
+        <Droppable droppableId="selectedPlayers" isDropDisabled={isDropLimit(selectedPlayers)}>
           {(provided, snapshot) => {
             return (
               <ul

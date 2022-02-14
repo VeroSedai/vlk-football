@@ -1,20 +1,18 @@
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 import PlayerItem from "../components/Players/PlayersItem";
 import {
   firstTeamState,
   matchDateAndPlace,
   secondTeamState,
 } from "../store/globalState";
-import classes from "../components/UI/DragNDrop.module.css";
-import { useEffect, useState } from "react";
-import { Card } from "reactstrap";
+import { Card, CardHeader, ListGroup, ListGroupItem } from "reactstrap";
+import { NavLink } from "react-router-dom";
 
 const MatchDetails = () => {
   const firstTeamFromState = useRecoilState(firstTeamState);
   const secondTeamFromState = useRecoilState(secondTeamState);
   const matchDateAndPlaceFromState = useRecoilState(matchDateAndPlace);
-  const { gamePlace: gamePlace, gameDate: gameDate } =
-    matchDateAndPlaceFromState[0];
+  const { gamePlace, gameDate } = matchDateAndPlaceFromState[0];
 
   return (
     <div>
@@ -22,35 +20,36 @@ const MatchDetails = () => {
         <p>{gameDate}</p>
         <p>{gamePlace}</p>
       </Card>
-      <div style={{ display: "flex" }}>
-        <div>
-          <p className={classes.players}>VLK TEAM</p>
+      <div className="pt-2" style={{ display: "flex" }}>
+        <Card>
+          <CardHeader>VLK TEAM</CardHeader>
           {firstTeamFromState[0].map((item, i) => {
             return (
-              <div>
-                <ul className={classes.players}>
-                  <li>
-                    <PlayerItem player={item} />
-                  </li>
-                </ul>
-              </div>
+              <ListGroup key={item.id}>
+                <ListGroupItem>
+                  <PlayerItem player={item} />
+                </ListGroupItem>
+              </ListGroup>
             );
           })}
-        </div>
-        <div>
-          <p>KVL TEAM</p>
+        </Card>
+        <Card>
+          <CardHeader>KVL TEAM</CardHeader>
           {secondTeamFromState[0].map((item, i) => {
             return (
-              <div>
-                <ul className={classes.players}>
-                  <li>
-                    <PlayerItem player={item} />
-                  </li>
-                </ul>
-              </div>
+              <ListGroup key={item.id}>
+                <ListGroupItem>
+                  <PlayerItem player={item} />
+                </ListGroupItem>
+              </ListGroup>
             );
           })}
-        </div>
+        </Card>
+      </div>
+      <div class="col-md-12 text-center">
+        <NavLink className="btn btn-primary" to="/">
+          Home
+        </NavLink>
       </div>
     </div>
   );

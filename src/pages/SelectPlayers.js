@@ -1,4 +1,4 @@
-import { Grid } from "@mui/material";
+
 import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import AddPlayerButton from "../components/Players/AddPlayerButton";
@@ -6,24 +6,35 @@ import NewPlayer from "../components/Players/NewPlayer";
 import DragNDrop from "../components/UI/DragNDrop";
 import useHttp from "../hooks/use-http";
 import { getAllPlayers } from "../lib/api";
-import LoadingSpinner from "../components/UI/LoadingSpinner";
-import { useRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import { allPlayerState } from "../store/globalState";
+import { Container, Row, Spinner } from "reactstrap";
 
 const SelectPlayers = () => {
   const [addPlayerIsShown, setAddPlayerIsShown] = useState(false);
-  const [loadedPlayers, setLoadedPlayers] = useRecoilState(allPlayerState);
+  const [isSelectablePlayerLimitReached, setIsSelectablePlayerLimitReached] =
+    useState(false);
+  const setLoadedPlayers = useSetRecoilState(allPlayerState);
 
   const {
     sendRequest,
     status,
     data: playersFromDb,
-    error,
   } = useHttp(getAllPlayers, true);
 
-  if(status === "completed"){
-      setLoadedPlayers(playersFromDb);
+  if (status === "completed") {
+    setLoadedPlayers(playersFromDb);
   }
+
+  const isSelectablePlayerLimitReachedHandler = (data) => {
+    setIsSelectablePlayerLimitReached(data);
+  };
+
+  useEffect(() => {
+    console.log(
+      `is limit reached changed to ${isSelectablePlayerLimitReached}`
+    );
+  }, [isSelectablePlayerLimitReachedHandler]);
 
   useEffect(() => {
     sendRequest();
@@ -31,8 +42,10 @@ const SelectPlayers = () => {
 
   if (status === "pending") {
     return (
-      <div className="centered">
-        <LoadingSpinner />
+      <div className="d-flex justify-content-center">
+        <Spinner animation="border" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </Spinner>
       </div>
     );
   }
@@ -46,27 +59,22 @@ const SelectPlayers = () => {
   };
 
   return (
-    <Grid
-      container
-      spacing={0}
-      direction="column"
-      alignItems="center"
-      justifyContent="center"
-      style={{ minHeight: "100vh" }}
-    >
-      <Grid item xs={3}>
-        {addPlayerIsShown && <NewPlayer onClose={hideAddPlayerHandler} />}
-        <AddPlayerButton onShowAddPlayer={showAddPlayerHandler} />
-      </Grid>
-      <Grid item xs={3}>
-        {status === "completed" && <DragNDrop />}
-      </Grid>
-      <Grid item xs={3}>
-        <NavLink className="btn btn-primary" to="/creatematch">
+    <Container>
+      {addPlayerIsShown && <NewPlayer onClose={hideAddPlayerHandler} />}
+      <AddPlayerButton onShowAddPlayer={showAddPlayerHandler} />
+      <Row>
+        {status === "completed" && (
+          <DragNDrop
+            selectablePlayerLimitReached={isSelectablePlayerLimitReachedHandler}
+          />
+        )}
+      </Row>
+      <div class="col-md-12 text-center">
+        {isSelectablePlayerLimitReached && <NavLink className="btn btn-primary" to="/creatematch">
           Crea Squadre
-        </NavLink>
-      </Grid>
-    </Grid>
+        </NavLink>}
+      </div>
+    </Container>
   );
 };
 export default SelectPlayers;

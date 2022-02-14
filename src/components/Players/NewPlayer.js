@@ -2,9 +2,10 @@ import Modal from "../UI/Modal";
 import NewPlayerForm from "./NewPlayerForm";
 import useHttp from "../../hooks/use-http";
 import { addPlayer } from "../../lib/api";
+import { ModalBody, ModalHeader } from "reactstrap";
 
 const NewPlayer = (props) => {
-  const { sendRequest, status } = useHttp(addPlayer);
+  const { sendRequest } = useHttp(addPlayer);
 
   const submitPlayerHandler = (playerData) => {
     sendRequest(playerData);
@@ -13,10 +14,13 @@ const NewPlayer = (props) => {
 
   return (
     <Modal onClose={props.onClose}>
-      <div>
-        <span>Add New Player</span>
-      </div>
-      <NewPlayerForm onConfirm={submitPlayerHandler} onCancel={props.onClose} />
+      <ModalHeader>Add New Player</ModalHeader>
+      <ModalBody>
+        <NewPlayerForm
+          onConfirm={submitPlayerHandler}
+          onCancel={props.onClose}
+        />
+      </ModalBody>
     </Modal>
   );
 };
